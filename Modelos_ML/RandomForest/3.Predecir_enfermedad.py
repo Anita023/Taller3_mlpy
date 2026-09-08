@@ -1,8 +1,8 @@
 import pandas as pd
 import joblib
-import streamlit as st # pip install streamlit
+import streamlit as st 
 import os
-import plotly.graph_objects as go   # pip install plotly
+import plotly.graph_objects as go   
 
 os.system("cls" if os.name == "nt" else "clear")
 
