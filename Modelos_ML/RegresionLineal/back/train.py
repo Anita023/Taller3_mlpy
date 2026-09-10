@@ -1,49 +1,40 @@
-from pathlib import Path
-
 import joblib
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel, Field
+import numpy as np
+#import matplotlib.pyplot as plt
+from pathlib import Path 
+from sklearn.linear_model import LinearRegression
 
+#Predecir precios de viviendas segun la superficie en 
 
-app = FastAPI(
-    title="API de Predicción de Precios de Viviendas",
-    description="Esta API predice el precio de una vivienda en funcion de la superficie en metros cuadrados utilizando un modelo de regresión lineal previamente entrenado.",
-    version="1.0.0",
-)
+# # Datos de entrenamiento (x) y etiquetas (y)
+x = np.array([[40], [50], [60], [85], [100], [120]])
+y = np.array([210000000, 300000000, 350000000, 500000000, 600000000, 700000000])
 
+# #Entrenar el modelo de regresión lineal
+model = LinearRegression()
+model.fit(x, y)
 
-BASE_DIR = Path(__file__).resolve().parent
-MODEL_PATH = BASE_DIR / "models" / "Linear_model.joblib"
+# #prediciones de prueba
+# y_pred = model.predict(x)
 
-try:
-    # Cargar el modelo entrenado desde el archivo
-    model = joblib.load(MODEL_PATH)
-except Exception:
-    model = None
+# #Imprimir la informacion del modelo entrenado
+# print("Coeficiente de Regresión:", model.coef_[0])
+# print("Término independiente:", model.intercept_)
 
+# #Graficar datos reales
+# plt.scatter(x, y, color='red', label='Datos de Entrenamiento')
 
-class housem2(BaseModel):
-    area_m2: float = Field(..., example=82.5, description="Superficie de la vivienda en metros cuadrados", gt=0)
+# #Graficar los datos de entrenamiento y la linea de regresion
+# plt.plot(x, y_pred, color='blue', linewidth=2, label='Línea de Regresión')
+# plt.xlabel('Superficie (m²)')
+# plt.ylabel('Precio (COP)')
+# plt.title('Regresión Lineal: Precio de viviendas segun la Superficie (m2)')
+# plt.grid(True)
+# plt.legend()
+# plt.show()
 
+#Guardar el artefacto del modelo entrenado en un archivo
 
-@app.get("/")
-def health_check():
-    return {
-        "message": "API de Predicción de Precios de Viviendas está en funcionamiento.",
-        "status": "OK",
-        "model_loaded": model is not None,
-    }
-
-
-@app.post("/predict")
-def predict_price(data: housem2):
-    if model is None:
-        raise HTTPException(status_code=503, detail="Modelo no disponible. Intente mas tarde")
-
-    # Realizar la predicción utilizando el modelo cargado
-    prediction = model.predict([[data.area_m2]])[0]
-
-    return {
-        "area_m2": data.area_m2,
-        "predicted_price": round(float(prediction), 2),
-    }
+BASE_DIR = Path (__file__).resolve().parent
+MODEL_PATH = BASE_DIR / "models/linear_model.joblib"
+joblib.dump(model, MODEL_PATH)
