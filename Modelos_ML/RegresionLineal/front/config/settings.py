@@ -1,16 +1,30 @@
+import os
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Clave secreta solo para desarrollo local. No usar en producción.
-SECRET_KEY = "django-insecure-cambia-esta-clave-en-produccion"
+# En Railway, define SECRET_KEY como variable de entorno.
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "django-insecure-cambia-esta-clave-en-produccion"
+)
 
-DEBUG = True
+# DEBUG=False en producción (Railway). Se activa solo si DEBUG=True está en el entorno.
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".railway.app"]
 
-# URL base de la API FastAPI de predicción de precios (Taller3)
-FASTAPI_URL = "http://127.0.0.1:8000"
+# Railway inyecta RAILWAY_PUBLIC_DOMAIN con el dominio público del servicio.
+railway_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+if railway_domain:
+    ALLOWED_HOSTS.append(railway_domain)
+
+CSRF_TRUSTED_ORIGINS = ["https://*.railway.app"]
+
+# URL base de la API FastAPI de predicción de precios (Taller3).
+# En Railway, define la variable de entorno FASTAPI_URL con la URL pública del backend.
+FASTAPI_URL = os.environ.get(
+    "FASTAPI_URL", "https://taller3mlpy-production.up.railway.app"
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -24,6 +38,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,5 +80,11 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

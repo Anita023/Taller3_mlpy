@@ -2,190 +2,144 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tasador de Viviendas</title>
     <style>
         * { box-sizing: border-box; }
         body {
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-            background: linear-gradient(180deg, #eef2ff 0%, #e0e7ff 100%);
-            color: #1e293b;
+            font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+            background: #ffffff;
+            color: #18181b;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            padding: 56px 16px;
+            padding: 96px 24px;
             margin: 0;
         }
         .card {
-            background: #ffffff;
-            border-radius: 16px;
-            padding: 36px 32px;
-            max-width: 400px;
+            max-width: 380px;
             width: 100%;
-            box-shadow: 0 20px 40px rgba(30, 41, 59, 0.12);
-            text-align: center;
         }
         .icon-house {
-            width: 56px;
-            height: 56px;
-            margin: 0 auto 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 40px;
+            height: 40px;
+            margin-bottom: 32px;
         }
         h1 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin: 0 0 28px;
-            color: #1e1b4b;
-            line-height: 1.25;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+            color: #18181b;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            color: #a1a1aa;
+            font-size: 0.9rem;
+            margin: 0 0 40px;
         }
         label {
             display: block;
-            text-align: left;
-            margin-bottom: 8px;
-            font-size: 0.9rem;
-            color: #475569;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #71717a;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
         .input-wrap {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .input-wrap svg {
-            position: absolute;
-            left: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6366f1;
+            margin-bottom: 32px;
         }
         input[type="number"] {
             width: 100%;
-            padding: 12px 12px 12px 40px;
-            border-radius: 10px;
-            border: 1px solid #e2e8f0;
-            background: #f8fafc;
-            color: #1e293b;
-            font-size: 1rem;
+            padding: 0 0 12px;
+            border: none;
+            border-bottom: 1px solid #e4e4e7;
+            background: transparent;
+            color: #18181b;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transition: border-color 0.15s ease;
+        }
+        input[type="number"]::placeholder {
+            color: #d4d4d8;
+            font-weight: 400;
         }
         input[type="number"]:focus {
             outline: none;
-            border-color: #6366f1;
-            background: #fff;
+            border-bottom-color: #18181b;
         }
         button {
             width: 100%;
-            padding: 13px 12px;
-            border-radius: 10px;
+            padding: 14px 12px;
+            border-radius: 6px;
             border: none;
-            background: #2563eb;
-            color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        button:hover {
-            background: #1d4ed8;
-        }
-        .resultado {
-            margin-top: 24px;
-            padding: 18px;
-            border-radius: 12px;
-            background: #eef6f6;
-            border: 1px solid #cbe3e0;
-            text-align: left;
-        }
-        .resultado .titulo {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 8px;
-        }
-        .resultado .titulo svg {
-            color: #16a34a;
-            flex-shrink: 0;
-        }
-        .resultado p {
-            margin: 0;
-            color: #334155;
+            background: #18181b;
+            color: #fafafa;
             font-size: 0.95rem;
-            line-height: 1.4;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        button:hover { background: #3f3f46; }
+        .resultado {
+            margin-top: 40px;
+            padding-top: 24px;
+            border-top: 1px solid #f4f4f5;
+        }
+        .resultado .etiqueta {
+            font-size: 0.8rem;
+            color: #a1a1aa;
+            margin-bottom: 6px;
         }
         .resultado .precio {
-            font-weight: 700;
-            color: #0f172a;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #18181b;
+            letter-spacing: -0.02em;
         }
         .error {
-            margin-top: 24px;
-            padding: 16px;
-            border-radius: 10px;
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #b91c1c;
-            font-size: 0.9rem;
-            text-align: left;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid #f4f4f5;
+            color: #a1a1aa;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
     </style>
 </head>
 <body>
     <div class="card">
-        <div class="icon-house">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 9.5 12 3l9 6.5"></path>
-                <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"></path>
-            </svg>
-        </div>
+        <svg class="icon-house" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9.5 12 3l9 6.5"></path>
+            <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"></path>
+        </svg>
 
-        <h1>Tasador de<br>Viviendas</h1>
+        <h1>Tasador de Viviendas</h1>
+        <p class="subtitle">Estima el valor de una vivienda por su área.</p>
 
         <form method="post">
             {% csrf_token %}
-            <label for="area_m2">Área de la vivienda (m²)</label>
+            <label for="area_m2">Área en metros cuadrados</label>
             <div class="input-wrap">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 3 3 21"></path>
-                    <path d="m16 8 2 2"></path>
-                    <path d="m12 12 2 2"></path>
-                    <path d="m8 16 2 2"></path>
-                </svg>
                 <input
                     type="number"
                     id="area_m2"
                     name="area_m2"
                     step="0.1"
                     min="0.1"
-                    placeholder="Ej: 85.5"
+                    placeholder="85.5"
                     value="{{ area_ingresada|default:'' }}"
                     required
                 >
             </div>
-            <button type="submit">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="4" y="3" width="16" height="18" rx="2"></rect>
-                    <path d="M8 8h8M8 12h8M8 16h5"></path>
-                </svg>
-                Calcular Precio
-            </button>
+            <button type="submit">Calcular precio</button>
         </form>
 
         {% if resultado %}
         <div class="resultado">
-            <div class="titulo">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="m9 12 2 2 4-4"></path>
-                </svg>
-                Predicción Exitosa
-            </div>
-            <p>
-                Una vivienda de {{ resultado.area_m2 }} m² tiene un valor estimado de:
-                <span class="precio">${{ resultado.predicted_price }}</span>
-            </p>
+            <div class="etiqueta">Valor estimado para {{ resultado.area_m2 }} m²</div>
+            <div class="precio">${{ resultado.predicted_price }}</div>
         </div>
         {% endif %}
 
