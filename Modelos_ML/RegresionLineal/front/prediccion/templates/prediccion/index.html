@@ -3,149 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tasador de Viviendas</title>
+    <title>Tasador de Viviendas 🏡</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
         body {
-            font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
-            background: #ffffff;
-            color: #18181b;
+            font-family: "Quicksand", -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ffe3f1 0%, #f3e8ff 45%, #e0f2fe 100%);
+            color: #4a1d4a;
             display: flex;
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
-            padding: 96px 24px;
+            padding: 56px 20px;
             margin: 0;
         }
-        .card {
-            max-width: 380px;
-            width: 100%;
-        }
-        .icon-house {
-            width: 40px;
-            height: 40px;
-            margin-bottom: 32px;
+        .page { max-width: 420px; width: 100%; }
+        .badge {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbcfe8, #ddd6fe);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 2.1rem;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.18);
         }
         h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin: 0 0 8px;
-            color: #18181b;
-            letter-spacing: -0.02em;
+            font-family: "Baloo 2", cursive;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 0 6px;
+            text-align: center;
+            background: linear-gradient(90deg, #db2777, #9333ea);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         .subtitle {
-            color: #a1a1aa;
-            font-size: 0.9rem;
-            margin: 0 0 40px;
+            text-align: center;
+            color: #a855c9;
+            font-size: 0.95rem;
+            margin: 0 0 28px;
+            font-weight: 600;
+        }
+        .card {
+            background: #fffaff;
+            border: 2px solid #fbcfe8;
+            border-radius: 28px;
+            padding: 30px 26px;
+            box-shadow: 0 14px 34px rgba(219, 39, 119, 0.12);
         }
         label {
             display: block;
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #71717a;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #a21caf;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
         }
-        .input-wrap {
-            margin-bottom: 32px;
+        .input-wrap { position: relative; margin-bottom: 22px; }
+        .input-wrap .emoji {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+        .input-wrap .unit {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d8b4fe;
+            font-size: 0.9rem;
+            font-weight: 700;
         }
         input[type="number"] {
             width: 100%;
-            padding: 0 0 12px;
-            border: none;
-            border-bottom: 1px solid #e4e4e7;
-            background: transparent;
-            color: #18181b;
-            font-size: 1.5rem;
-            font-weight: 500;
-            transition: border-color 0.15s ease;
+            padding: 14px 50px;
+            border-radius: 18px;
+            border: 2px solid #f5d0fe;
+            background: #fdf4ff;
+            color: #701a75;
+            font-size: 1.15rem;
+            font-weight: 700;
+            font-family: "Quicksand", sans-serif;
+            transition: all 0.2s ease;
         }
-        input[type="number"]::placeholder {
-            color: #d4d4d8;
-            font-weight: 400;
-        }
+        input[type="number"]::placeholder { color: #e9b8f5; font-weight: 600; }
         input[type="number"]:focus {
             outline: none;
-            border-bottom-color: #18181b;
+            border-color: #e879f9;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(232, 121, 249, 0.15);
         }
         button {
             width: 100%;
-            padding: 14px 12px;
-            border-radius: 6px;
+            padding: 15px 12px;
+            border-radius: 18px;
             border: none;
-            background: #18181b;
-            color: #fafafa;
-            font-size: 0.95rem;
-            font-weight: 500;
+            background: linear-gradient(90deg, #ec4899, #a855f7);
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: "Quicksand", sans-serif;
             cursor: pointer;
-            transition: background 0.15s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 8px 18px rgba(219, 39, 119, 0.25);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
-        button:hover { background: #3f3f46; }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(219, 39, 119, 0.32);
+        }
+        button:active { transform: translateY(0); }
         .resultado {
-            margin-top: 40px;
-            padding-top: 24px;
-            border-top: 1px solid #f4f4f5;
+            margin-top: 22px;
+            padding: 20px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #fce7f3, #ede9fe);
+            border: 2px dashed #f0abfc;
+            text-align: center;
+        }
+        .resultado .titulo {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #a21caf;
+            margin-bottom: 6px;
         }
         .resultado .etiqueta {
-            font-size: 0.8rem;
-            color: #a1a1aa;
+            font-size: 0.85rem;
+            color: #9d5fa8;
             margin-bottom: 6px;
         }
         .resultado .precio {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #18181b;
-            letter-spacing: -0.02em;
+            font-family: "Baloo 2", cursive;
+            font-size: 2.1rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #db2777, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         .error {
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid #f4f4f5;
-            color: #a1a1aa;
-            font-size: 0.85rem;
-            line-height: 1.5;
+            margin-top: 22px;
+            padding: 16px 18px;
+            border-radius: 18px;
+            background: #fff1f2;
+            border: 2px solid #fecdd3;
+            color: #be123c;
+            font-size: 0.88rem;
+            font-weight: 600;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="card">
-        <svg class="icon-house" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9.5 12 3l9 6.5"></path>
-            <path d="M5 10v10a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V10"></path>
-        </svg>
-
+    <div class="page">
+        <div class="badge">🏡</div>
         <h1>Tasador de Viviendas</h1>
-        <p class="subtitle">Estima el valor de una vivienda por su área.</p>
+        <p class="subtitle">✨ ¡Descubre el valor de tu hogar soñado! ✨</p>
 
-        <form method="post">
-            {% csrf_token %}
-            <label for="area_m2">Área en metros cuadrados</label>
-            <div class="input-wrap">
-                <input
-                    type="number"
-                    id="area_m2"
-                    name="area_m2"
-                    step="0.1"
-                    min="0.1"
-                    placeholder="85.5"
-                    value="{{ area_ingresada|default:'' }}"
-                    required
-                >
+        <div class="card">
+            <form method="post">
+                {% csrf_token %}
+                <label for="area_m2">💫 Área de la vivienda</label>
+                <div class="input-wrap">
+                    <span class="emoji">📐</span>
+                    <input
+                        type="number"
+                        id="area_m2"
+                        name="area_m2"
+                        step="0.1"
+                        min="0.1"
+                        placeholder="85.5"
+                        value="{{ area_ingresada|default:'' }}"
+                        required
+                    >
+                    <span class="unit">m²</span>
+                </div>
+                <button type="submit">
+                    💖 Calcular precio
+                </button>
+            </form>
+
+            {% if resultado %}
+            <div class="resultado">
+                <div class="titulo">🎀 ¡Predicción exitosa! 🎀</div>
+                <div class="etiqueta">Una vivienda de {{ resultado.area_m2 }} m² vale aproximadamente</div>
+                <div class="precio">${{ resultado.predicted_price }}</div>
             </div>
-            <button type="submit">Calcular precio</button>
-        </form>
+            {% endif %}
 
-        {% if resultado %}
-        <div class="resultado">
-            <div class="etiqueta">Valor estimado para {{ resultado.area_m2 }} m²</div>
-            <div class="precio">${{ resultado.predicted_price }}</div>
+            {% if error %}
+            <div class="error">🥺 {{ error }}</div>
+            {% endif %}
         </div>
-        {% endif %}
-
-        {% if error %}
-        <div class="error">{{ error }}</div>
-        {% endif %}
     </div>
 </body>
 </html>
