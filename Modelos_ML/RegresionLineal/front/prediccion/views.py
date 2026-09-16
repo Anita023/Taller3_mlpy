@@ -26,7 +26,13 @@ def predecir_precio(request):
                     timeout=5,
                 )
                 if response.status_code == 200:
-                    resultado = response.json()
+                    data = response.json()
+                    resultado = {
+                        "area_m2": data["area_m2"],
+                        "predicted_price": data["predicted_price"],
+                        # Precio formateado con separador de miles: 245,000.00
+                        "predicted_price_fmt": f"{data['predicted_price']:,.2f}",
+                    }
                 elif response.status_code == 503:
                     error = "El modelo de predicción no está disponible en este momento."
                 else:
