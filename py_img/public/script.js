@@ -223,9 +223,6 @@ async function processCameraFrame() {
   );
 }
 
-// ==========================================
-// 8. COMUNICACIÓN ASÍNCRONA CON VERCEL API
-// ==========================================
 async function sendFrameToBackend(formData) {
   try {
     const response = await fetch("/api/detect", {
@@ -233,20 +230,21 @@ async function sendFrameToBackend(formData) {
       body: formData,
     });
 
-    if (!response.ok) return;
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error(`Error ${response.status} del servidor:`, errorData.error || response.statusText);
+      return;
+    }
 
     const data = await response.json();
 
     if (data.success) {
-      // Asignar el Base64 que contiene los recuadros verdes pintados por OpenCV
       imgResult.src = data.image;
       imgResult.classList.remove("hidden");
       metricsZone.classList.remove("hidden");
-
-      // Actualizar contador numérico
       faceCount.textContent = data.faces_detected;
     }
   } catch (error) {
-    console.error("Error en la transmisión de datos:", error);
+    console.error("Error en la conexión con la API:", error);
   }
 }
