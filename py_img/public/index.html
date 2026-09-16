@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visión Artificial - Detección en Tiempo Real</title>
+    <link rel="shortcut icon" href="logosena.png" type="image/x-icon">
+
+    <meta name="author" content="Carlos Andres Castro Jaramillo">
+    <meta name="description"
+        content="Visión Artificial con OpenCV: Detecta rostros en imágenes y video en tiempo real. Aprende a procesar imágenes usando Python y OpenCV.">
+    <meta name="keywords"
+        content="visión artificial, OpenCV, detección de rostros, procesamiento de imágenes, Python, machine learning, análisis de imágenes, cámara web, detección en tiempo real">
+
+    <meta name="theme-color" content="#FFE3F0">
+    <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app">
+
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-mark" aria-hidden="true"></span>
+                <div class="brand-text">
+                    <h1>Detección de rostros</h1>
+                    <p>Visión artificial en tiempo real con OpenCV</p>
+                </div>
+            </div>
+            <div class="status" id="statusIndicator">
+                <span class="status-dot"></span>
+                <span class="status-text" id="statusText">Listo</span>
+            </div>
+        </header>
+
+        <nav class="mode-switch" role="tablist" aria-label="Modo de entrada">
+            <button type="button" id="btnModeUpload" class="mode-tab is-active" role="tab" aria-selected="true">
+                Subir imagen
+            </button>
+            <button type="button" id="btnModeCamera" class="mode-tab" role="tab" aria-selected="false">
+                Cámara en vivo
+            </button>
+        </nav>
+
+        <main class="workspace">
+
+            <section id="sectionUpload" class="panel input-panel">
+                <div id="dropZone" class="dropzone corner-frame">
+                    <input type="file" id="fileInput" class="dropzone-input" accept="image/*"
+                        aria-label="Seleccionar imagen">
+                    <span class="corner corner-tl"></span>
+                    <span class="corner corner-tr"></span>
+                    <span class="corner corner-bl"></span>
+                    <span class="corner corner-br"></span>
+                    <p class="dropzone-text">Arrastra una imagen aquí o haz clic para buscarla</p>
+                    <p class="dropzone-hint">JPG, PNG — se procesa en el servidor</p>
+                </div>
+                <button id="btnProcess" class="btn btn-accent" disabled>Procesar imagen</button>
+            </section>
+
+            <section id="sectionCamera" class="panel input-panel hidden">
+                <div class="camera-frame corner-frame">
+                    <video id="webcam" autoplay playsinline muted></video>
+                    <canvas id="canvasFrame" width="400" height="300" class="hidden"></canvas>
+                    <span class="corner corner-tl amber"></span>
+                    <span class="corner corner-tr amber"></span>
+                    <span class="corner corner-bl amber"></span>
+                    <span class="corner corner-br amber"></span>
+                    <div class="scan-line" aria-hidden="true"></div>
+                </div>
+                <div class="camera-controls">
+                    <button id="btnStartCamera" class="btn btn-amber">Encender cámara</button>
+                    <button id="btnToggleCamera" class="btn btn-ghost" style="display: none;">Cambiar cámara</button>
+                    <button id="btnStopCamera" class="btn btn-danger" disabled>Apagar cámara</button>
+                </div>
+            </section>
+
+            <section class="panel output-panel">
+                <div class="metrics-row">
+                    <p class="output-label">Resultado</p>
+                    <div class="metrics hidden" id="metricsZone">
+                        <span class="metrics-value" id="faceCount">0</span>
+                        <span class="metrics-label">rostros detectados</span>
+                    </div>
+                </div>
+
+                <div class="viewfinder">
+                    <div id="boxOriginal" class="slot">
+                        <p class="slot-label">Origen</p>
+                        <div class="slot-frame">
+                            <img id="imgOriginal" src="" alt="Vista previa" class="hidden">
+                            <p class="slot-placeholder">Sin imagen aún</p>
+                        </div>
+                    </div>
+
+                    <div class="slot result-slot">
+                        <p class="slot-label">Análisis</p>
+                        <div class="slot-frame corner-frame">
+                            <img id="imgResult" src="" alt="Detección de rostros" class="hidden">
+                            <p class="slot-placeholder">Esperando datos del servidor</p>
+                            <div id="loader" class="loader hidden" role="status" aria-label="Procesando">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <span class="corner corner-tl green"></span>
+                            <span class="corner corner-tr green"></span>
+                            <span class="corner corner-bl green"></span>
+                            <span class="corner corner-br green"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2026 · Python y Machine Learning</p>
+            <p>By Carlos Andrés Castro Jaramillo</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
